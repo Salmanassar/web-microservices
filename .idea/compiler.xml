@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="AccountManagementMicroservice" />
+        <module name="mobile-app-ws" />
+        <module name="PhotoAppDiscoveryService" />
+        <module name="ApiGateway" />
+        <module name="PhotoAppApiUsers" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AccountManagementMicroservice" target="11" />
+      <module name="ApiGateway" target="11" />
+      <module name="mobile-app-ws" target="11" />
+      <module name="PhotoAppApiUsers" target="11" />
+      <module name="PhotoAppDiscoveryService" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AccountManagementMicroservice" options="-parameters" />
+      <module name="ApiGateway" options="-parameters" />
+      <module name="PhotoAppApiUsers" options="-parameters" />
+      <module name="PhotoAppDiscoveryService" options="-parameters" />
+      <module name="mobile-app-ws" options="-parameters" />
+    </option>
+  </component>
+</project>

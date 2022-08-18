@@ -19,8 +19,8 @@ import java.net.UnknownHostException;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
-    private Environment environment;
-    private UsersService usersService;
+    private final Environment environment;
+    private final UsersService usersService;
 
     @Autowired
     public UsersController(Environment environment, UsersService usersService) {
@@ -30,7 +30,7 @@ public class UsersController {
 
     @GetMapping("/check")
     public String status() throws UnknownHostException {
-        return "Working " + " " + InetAddress.getLocalHost();
+        return "Working " + " " + InetAddress.getLocalHost() + " with token " + environment.getProperty("token.secret");
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},

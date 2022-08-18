@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AccountManagementMicroservice/AccountManagementMicroservice.iml" filepath="$PROJECT_DIR$/AccountManagementMicroservice/AccountManagementMicroservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/ApiGateway/ApiGateway.iml" filepath="$PROJECT_DIR$/ApiGateway/ApiGateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PhotoAppAPIConfigServer/PhotoAppAPIConfigServer.iml" filepath="$PROJECT_DIR$/PhotoAppAPIConfigServer/PhotoAppAPIConfigServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/PhotoAppApiUsers/PhotoAppApiUsers.iml" filepath="$PROJECT_DIR$/PhotoAppApiUsers/PhotoAppApiUsers.iml" />
       <module fileurl="file://$PROJECT_DIR$/PhotoAppDiscoveryService/PhotoAppDiscoveryService.iml" filepath="$PROJECT_DIR$/PhotoAppDiscoveryService/PhotoAppDiscoveryService.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile-app-ws/mobile-app-ws.iml" filepath="$PROJECT_DIR$/mobile-app-ws/mobile-app-ws.iml" />

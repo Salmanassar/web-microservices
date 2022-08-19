@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
 
@@ -77,7 +74,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setSubject(userDto.getUserId())
                 .setExpiration(new Date(System.currentTimeMillis()
                         + Long.parseLong(Objects.requireNonNull(environment.getProperty("token.expiration_time")))))
-                .signWith(key,SignatureAlgorithm.HS512)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
         response.addHeader("token", token);

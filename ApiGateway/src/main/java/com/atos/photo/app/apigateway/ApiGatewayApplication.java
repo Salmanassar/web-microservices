@@ -15,15 +15,15 @@ public class ApiGatewayApplication {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
 
-//    @Bean
-//    public RouteLocator routeLocator(RouteLocatorBuilder rlb, AuthorizationHeaderFilter authorizationHeaderFilter) {
-//        return rlb.routes()
-//                .route(p -> p.path("/user-ws/users/status")
-//                        .filters(f -> f.removeRequestHeader("Cookie")
-//                                .rewritePath("/user-ws/(?<segment>.*)", "/$\\{segment}")
-//                                .filter(authorizationHeaderFilter.apply(new AuthorizationHeaderFilter.Config())))
-//                        .uri("lb://user-ws"))
-//                .build();
-//    }
+    @Bean
+    public RouteLocator routeLocator(RouteLocatorBuilder rlb, AuthorizationHeaderFilter authorizationHeaderFilter) {
+        return rlb.routes()
+                .route(p -> p.path("/user-ws/users/status")
+                        .filters(f -> f.removeRequestHeader("Cookie")
+                                .rewritePath("/user-ws/(?<segment>.*)", "/$\\{segment}")
+                                .filter(authorizationHeaderFilter.apply(new AuthorizationHeaderFilter.Config())))
+                        .uri("lb://user-ws"))
+                .build();
+    }
 
 }

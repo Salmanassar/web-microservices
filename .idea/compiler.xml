@@ -7,11 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="PhotoAppAPIConfigServer" />
         <module name="AccountManagementMicroservice" />
+        <module name="PhotoAppAPIConfigServer" />
         <module name="mobile-app-ws" />
         <module name="PhotoAppDiscoveryService" />
         <module name="ApiGateway" />
+        <module name="PhotoAppApiAlbums" />
         <module name="PhotoAppApiUsers" />
       </profile>
     </annotationProcessing>
@@ -19,6 +20,7 @@
       <module name="AccountManagementMicroservice" target="11" />
       <module name="ApiGateway" target="11" />
       <module name="mobile-app-ws" target="11" />
+      <module name="PhotoAppApiAlbums" target="11" />
       <module name="PhotoAppAPIConfigServer" target="11" />
       <module name="PhotoAppApiUsers" target="11" />
       <module name="PhotoAppDiscoveryService" target="11" />
@@ -29,6 +31,7 @@
       <module name="AccountManagementMicroservice" options="-parameters" />
       <module name="ApiGateway" options="-parameters" />
       <module name="PhotoAppAPIConfigServer" options="-parameters" />
+      <module name="PhotoAppApiAlbums" options="-parameters" />
       <module name="PhotoAppApiUsers" options="-parameters" />
       <module name="PhotoAppDiscoveryService" options="-parameters" />
       <module name="mobile-app-ws" options="-parameters" />

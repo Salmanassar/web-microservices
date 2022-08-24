@@ -3,6 +3,7 @@ package com.atos.apps.photo.app.api.users.ui.controllers;
 import com.atos.apps.photo.app.api.users.shared.UserDto;
 import com.atos.apps.photo.app.api.users.ui.model.CreateUserRequestModel;
 import com.atos.apps.photo.app.api.users.ui.model.CreateUserResponseModel;
+import com.atos.apps.photo.app.api.users.ui.model.UserResponseModel;
 import com.atos.apps.photo.app.api.users.ui.users.service.UsersService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -42,5 +43,13 @@ public class UsersController {
         usersService.createUser(userDto);
         CreateUserResponseModel responseModel = modelMapper.map(userDto, CreateUserResponseModel.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseModel);
+    }
+
+    @GetMapping(value = "/{userId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<UserResponseModel> getUser(@PathVariable("userId") String userId) {
+        UserDto userDto = usersService.getUserById(userId);
+        UserResponseModel userResponseModel = new ModelMapper().map(userDto, UserResponseModel.class);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseModel);
     }
 }

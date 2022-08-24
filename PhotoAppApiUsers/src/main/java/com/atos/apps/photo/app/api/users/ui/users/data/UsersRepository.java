@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface UsersRepository extends CrudRepository<UserEntity, Long> {
     UserEntity findUserEntitiesByEmail(String email);
+    UserEntity findByUserId(String userId);
 }

@@ -6,11 +6,12 @@ import com.atos.apps.photo.app.api.users.ui.users.data.UserEntity;
 import com.atos.apps.photo.app.api.users.ui.users.data.UsersRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,16 +31,19 @@ public class UsersServiceImpl implements UsersService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private RestTemplate restTemplate;
     private Environment environment;
+    private AlbumServiceClient albumServiceClient;
 
     @Autowired
     public UsersServiceImpl(UsersRepository usersRepository,
                             BCryptPasswordEncoder bCryptPasswordEncoder,
-                            RestTemplate restTemplate,
-                            Environment environment) {
+                            AlbumServiceClient albumServiceClient,
+                            Environment environment,
+                            RestTemplate restTemplate) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.usersRepository = usersRepository;
-        this.restTemplate = restTemplate;
+        this.albumServiceClient = albumServiceClient;
         this.environment = environment;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -61,23 +66,35 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UserDto getUserById(String userId) {
-        UserEntity userEntity = usersRepository.findByUserId(userId);
-        if (userEntity == null) throw new UsernameNotFoundException("The user not found");
-        String albumUrl = String.format(environment.getProperty("albums.url"), userId);
-        ResponseEntity<List<AlbumResponseModel>> albumListResponse = restTemplate.exchange(albumUrl, HttpMethod.GET,
-                null, new ParameterizedTypeReference<>(){});
-        List<AlbumResponseModel> list = albumListResponse.getBody();
-        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
-        userDto.setAlbums(list);
-        return userDto;
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = usersRepository.findUserEntitiesByEmail(username);
         if (userEntity == null) throw new UsernameNotFoundException(username);
         return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
                 true, true, true, true, new ArrayList<>());
+    }
+
+    @Override
+    public UserDto getUserById(String userId) {
+        UserEntity userEntity = usersRepository.findByUserId(userId);
+        if (userEntity == null) throw new UsernameNotFoundException("The user not found");
+        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+        List<AlbumResponseModel> list = albumServiceClient.getAlbums(userId);
+        userDto.setAlbums(list);
+        return userDto;
+    }
+
+    /**
+     * This private method for getting data from the microservice "user-ws" using RestTemplate
+     * It is created like an example
+     */
+    private List<AlbumResponseModel> exchangeAsList(String uri) {
+        String albumUrl = String.format(Objects.requireNonNull(environment.getProperty("albums.url")), uri);
+        return restTemplate.exchange(
+                        albumUrl,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<AlbumResponseModel>>() {
+                        })
+                .getBody();
     }
 }

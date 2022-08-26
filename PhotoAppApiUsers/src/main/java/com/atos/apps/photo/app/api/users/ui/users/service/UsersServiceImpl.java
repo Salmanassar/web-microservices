@@ -4,6 +4,7 @@ import com.atos.apps.photo.app.api.users.shared.UserDto;
 import com.atos.apps.photo.app.api.users.ui.model.AlbumResponseModel;
 import com.atos.apps.photo.app.api.users.ui.users.data.UserEntity;
 import com.atos.apps.photo.app.api.users.ui.users.data.UsersRepository;
+import feign.FeignException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
@@ -19,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +32,7 @@ public class UsersServiceImpl implements UsersService {
     private RestTemplate restTemplate;
     private Environment environment;
     private AlbumServiceClient albumServiceClient;
+    private Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
 
     @Autowired
     public UsersServiceImpl(UsersRepository usersRepository,
@@ -78,7 +79,12 @@ public class UsersServiceImpl implements UsersService {
         UserEntity userEntity = usersRepository.findByUserId(userId);
         if (userEntity == null) throw new UsernameNotFoundException("The user not found");
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
-        List<AlbumResponseModel> list = albumServiceClient.getAlbums(userId);
+        List<AlbumResponseModel> list = null;
+        try {
+            list = albumServiceClient.getAlbums(userId);
+        } catch (FeignException e) {
+            logger.error(e.getLocalizedMessage());
+        }
         userDto.setAlbums(list);
         return userDto;
     }

@@ -1,5 +1,6 @@
 package com.atos.apps.photo.app.api.users;
 
+import com.atos.apps.photo.app.api.users.shared.exception.FeignErrorDecoder;
 import feign.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

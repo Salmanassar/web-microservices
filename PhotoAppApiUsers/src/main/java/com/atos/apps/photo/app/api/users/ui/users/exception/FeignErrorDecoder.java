@@ -1,4 +1,4 @@
-package com.atos.apps.photo.app.api.users.shared.exception;
+package com.atos.apps.photo.app.api.users.ui.users.exception;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;

@@ -4,7 +4,6 @@ import com.atos.apps.photo.app.api.users.shared.UserDto;
 import com.atos.apps.photo.app.api.users.ui.model.AlbumResponseModel;
 import com.atos.apps.photo.app.api.users.ui.users.data.UserEntity;
 import com.atos.apps.photo.app.api.users.ui.users.data.UsersRepository;
-import feign.FeignException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

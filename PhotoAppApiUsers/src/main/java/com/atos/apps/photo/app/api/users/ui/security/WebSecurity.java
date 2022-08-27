@@ -4,6 +4,7 @@ import com.atos.apps.photo.app.api.users.ui.users.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,7 +31,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**")
-                .hasIpAddress(environment.getProperty("gateway.ip")).and()
+                .hasIpAddress(environment.getProperty("gateway.ip"))
+                .antMatchers(HttpMethod.GET,"/actuator/health")
+                .hasIpAddress(environment.getProperty("gateway.ip"))
+                .antMatchers(HttpMethod.GET,"/actuator/circuitbreakerevents")
+                .hasIpAddress(environment.getProperty("gateway.ip"))
+                .and()
                 .addFilter(getAuthenticationFilter())
                 .headers().frameOptions().disable();
     }

@@ -1,0 +1,6 @@
+Run elasticsearch and logstash with settings (logstash.conf)
+1. bin\elasticsearch.bat
+2. bin\logstash -f logstash.conf
+
+generate token for kibana
+bin\elasticsearch-create-enrollment-token --scope kibana

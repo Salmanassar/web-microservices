@@ -1,0 +1,13 @@
+After committed this command you have only 90 days for using the file
+
+generate password via postman using http://localhost:8011/encrypt
+and then past it to properties (water you want git private repository or desktop)
+
+In the ConfigServer you should add
+encrypt.key-store.location=file:///${user.home}/...
+encrypt.key-store.password=testtest
+encrypt.key-store.alias=apiEncryptionKey
+
+
+
+keytool -genkeypair -alias apiEncryptionKey -keyalg RSA -dname "CN=Salmanassar,OU=API Development,O=atosdeveloper.com,L=Wroclaw,S=DS,C=PL" -keypass testtest -keystore apiEncryptionKey.jks-storepass

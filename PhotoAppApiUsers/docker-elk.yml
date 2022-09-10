@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  logstash:
+    image: logstash:8.4.0
+    container_name: logstash
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./logstash/logstash.conf:/etc/logstash/conf.d
+      - ./logstash/logstash.conf:/Users/Professional/IdeaProjects/web-microservices/PhotoAppApiUsers/logstash.conf:ro
+    links:
+      - "elasticsearch:elasticsearch"
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch:8.4.0
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - $HOME/app:/usr/share/elasticsearch/data
+
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: kibana:8.4.0
+    environment:
+      SERVER_NAME: kibana.example.org
+      ELASTICSEARCH_URL: http://localhost:9200
+    links:
+      - "elasticsearch:elasticsearch"
+    volumes:
+      - $HOME/app:/var/app
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch

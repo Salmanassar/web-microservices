@@ -1,0 +1,2 @@
+http.host: "0.0.0.0"
+xpack.monitoring.elasticsearh.hosts: ["http://3.67.173.244:9200"]

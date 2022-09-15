@@ -1,1 +1,4 @@
-docker run -d -p 9411:9411 openzipkin/zipkin
+FROM openjdk:17-jdk-alpine
+VOLUME /tmp
+COPY target/PhotoAppApiUser.jar PhotoAppApiUser.jar
+ENTRYPOINT ["java","-jar","PhotoAppApiUser.jar"]

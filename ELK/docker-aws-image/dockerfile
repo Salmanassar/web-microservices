@@ -1,0 +1,4 @@
+FROM logstash:8.4.1
+RUN rm -f C:/Users/Professional/IdeaProjects/web-microservices/ELK/logstash-aws.conf
+COPY logstash.conf C:/Users/Professional/IdeaProjects/web-microservices/ELK/logstash.conf
+COPY logstash.yml config/logstash.yml

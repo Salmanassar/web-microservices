@@ -41,12 +41,12 @@ and all of them with 0.0.0.0/0, ::/0
 
 Run Config Servere Docker Container
 
-docker run -d -p 8012:8012 -e "spring.rabbitmq.host=172.17.0.2" folkner9379992/config-server
+docker run -d -p 8011:8011 -e "spring.rabbitmq.host=172.17.0.2" folkner9379992/config-server
 
 
 Run Eureka Docker Container
 
-docker run -d -p 8010:8010 -e "spring.cloud.config.uri=http://172.31.0.133:8012" kargopolov/sk-eureka-server
+docker run -d -p 8010:8010 -e "spring.cloud.config.uri=http://172.31.34.61:8011" folkner9379992/discovery-service-ds
 
 
 Run  API Gateway Docker Container
@@ -71,22 +71,21 @@ docker run -d --network api-network -p 5601:5601 kibana:7.17.6
 
 Run Albums Microservice Docker Container
 
-docker run -it -d -e "eureka.client.serviceUrl.defaultZone=http://test:test@99.79.99.76:8010/eureka" --network host -e "logging.file=/api-logs/albums-ws.log" -v /home/ec2-user/api-logs:/api-logs kargopolov/albums-microservice
-
+docker run -it -d -e "eureka.client.service-url.defaultZone=http://test:test@172.31.3.192:8010/eureka" --network host -e "logging.file=/api-logs/albums-ws.log" -v /home/ec2-user/api-logs:/api-logs folkner9379992/albums-microservice
 
 Run Logstash for Albums Microservice Docker Container
 
-docker run -d --name logstash /home/ec2-user/api-logs:/api-logs kargopolov/sk-albums-microservice-logstash
+docker run -d --name logstash -v /home/ec2-user/api-logs:/api-logs folkner9379992/logstash
 
 
 Run MySQL Docker Container
 
-docker run –d -p 3306:3306 --name mysql-docker-container -e MYSQL_ROOT_PASSWORD=sergey -e MYSQL_DATABASE=photo_app -e MYSQL_USER=sergey -e MYSQL_PASSWORD=sergey mysql:latest
+docker run –d -p 3306:3306 --name mysql-docker-container -e MYSQL_ROOT_PASSWORD=olek -e MYSQL_DATABASE=photo_app -e MYSQL_USER=olek -e MYSQL_PASSWORD=olek mysql:latest
 
 
 Run Users Microservice Docker Container
 
-docker run -d -e "spring.cloud.config.uri=http://172.31.34.61:8011" -e "spring.rabbitmq.host=172.31.34.61" -e "eureka.client.serviceUrl.defaultZone=http://test:test@172.31.18.99:8010/eureka" -e "spring.datasource.url=jdbc:mysql://172.31.13.167:3306/photo_app?serverTimezone=UTC" --network host -e "logging.file=/api-logs/users-ws.log" -v /home/ec2-user/api-logs:/api-logs kargopolov/sk-users-microservice
+docker run -d -e "spring.cloud.config.uri=http://172.31.34.61:8011" -e "spring.rabbitmq.host=172.31.34.61" -e "eureka.client.serviceUrl.defaultZone=http://test:test@172.31.3.192:8010/eureka" -e "spring.datasource.url=jdbc:mysql://18.184.40.160:3306/photo_app" -e "server.port=8181" -p 8181:8181 folkner9379992/photo-app-api-users
 
 
 Run Logstash for Users Microservice
